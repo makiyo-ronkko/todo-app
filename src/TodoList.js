@@ -6,14 +6,12 @@ class TodoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: [
-        { task: 'Walk the fish', id: 1 },
-        { task: 'Groom Chickens', id: 2 },
-      ],
+      todos: [],
     };
 
     this.create = this.create.bind(this);
     this.remove = this.remove.bind(this);
+    this.update = this.update.bind(this);
   }
 
   create(newTodo) {
@@ -28,6 +26,21 @@ class TodoList extends Component {
     });
   }
 
+  update(id, updatedTask) {
+    const updatedTodos = this.state.todos.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo, // return existing todos
+          task: updatedTask, // update to new todo
+        };
+      }
+      return todo; //return todo unchanged
+    });
+    this.setState({
+      todos: updatedTodos,
+    });
+  }
+
   render() {
     const renderTodos = this.state.todos.map((todo) => {
       return (
@@ -36,6 +49,7 @@ class TodoList extends Component {
           key={todo.id}
           task={todo.task}
           removeTodo={this.remove}
+          updateTodo={this.update}
         />
       ); //removeTodo={()=>remove}
     });
