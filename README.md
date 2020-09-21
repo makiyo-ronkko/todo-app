@@ -1,3 +1,15 @@
+# React Todo app
+
+## About the app
+
+I have built the todo app with React class components following Udemy's course 'The Modern React Bootcamp (Hooks, Context, NextJS, Router)' instructed by Colt Steele.
+
+## Features
+
+- Todo App simply allows users to add, edit, remove todos and view todos.
+
+![todoapp](./public/main.png?raw=true)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
