@@ -1,0 +1,1 @@
+export const REACT_TODO_TITLE = 'REACT TODO LIST';
