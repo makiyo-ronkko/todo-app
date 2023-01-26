@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoList from '../TodoList';
+import { TodoList } from '../TodoList';
 import Todo from '../Todo';
 import { REACT_TODO_TITLE } from '../constants';
 

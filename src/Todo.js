@@ -1,90 +1,79 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './Todo.css';
 
-class Todo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditing: false, // to toggle edit form
-      task: this.props.task, // passing <Task task={todo.task}> from TodoList
-    };
-    this.handleRemove = this.handleRemove.bind(this);
-    this.toggleForm = this.toggleForm.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
-  }
+export const Todo = ({
+	id,
+	task,
+	isCompleted,
+	removeTodo,
+	updateTodo,
+	toggleTodo,
+}) => {
+	const [isEditing, setIsEditing] = useState(false); // to toggle edit form
+	const [todo, setTodo] = useState({ task }); // passing <Task task={todo.task}> from TodoList
 
-  handleRemove() {
-    this.props.removeTodo(this.props.id);
-  }
+	const handleRemove = () => {
+		removeTodo(id);
+	};
 
-  toggleForm() {
-    this.setState({
-      isEditing: !this.state.isEditing,
-    });
-  }
+	const toggleForm = () => {
+		setIsEditing(!isEditing);
+	};
 
-  handleUpdate(e) {
-    e.preventDefault();
-    // take new task data and pass up to parent
-    // id is accessing from TodoList and task is updated task
-    this.props.updateTodo(this.props.id, this.state.task);
-    this.setState({ isEditing: false });
-  }
+	const handleUpdate = (e) => {
+		e.preventDefault();
+		// take new task data and pass up to parent
+		// id is accessing from TodoList and task is updated task
+		updateTodo(id, todo);
+		setIsEditing(false);
+	};
 
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
+	const handleChange = (e) => {
+		setTodo({ task: e.target.value });
+	};
 
-  handleToggle() {
-    this.props.toggleTodo(this.props.id);
-  }
+	const handleToggle = () => {
+		toggleTodo(id);
+	};
 
-  render() {
-    let result;
-    if (this.state.isEditing) {
-      result = (
-        <div classNames='Todo'>
-          <form onSubmit={this.handleUpdate} className='Todo-edit-form'>
-            <input
-              type='text'
-              value={this.state.task}
-              name='task'
-              onChange={this.handleChange}
-            />
-            <div className='Todo-buttons'>
-              <button>Save</button>
-            </div>
-          </form>
-        </div>
-      );
-    } else {
-      result = (
-        <div className='Todo'>
-          <li
-            className={
-              this.props.isCompleted ? 'Todo-task isCompleted' : 'Todo-task'
-            }
-            onClick={this.handleToggle}
-          >
-            {this.props.task}
-          </li>
-          <div className='Todo-buttons'>
-            <button onClick={this.toggleForm}>
-              <i className='fas fa-pen' />
-            </button>
-            <button onClick={this.handleRemove}>
-              <i className='fas fa-trash' />
-            </button>
-          </div>
-        </div>
-      );
-    }
-    return result;
-  }
-}
+	let result;
+	if (isEditing) {
+		result = (
+			<div className='Todo'>
+				<form onSubmit={handleUpdate} className='Todo-edit-form'>
+					<input
+						type='text'
+						value={todo.task}
+						name='task'
+						onChange={handleChange}
+					/>
+					<div className='Todo-buttons'>
+						<button>Save</button>
+					</div>
+				</form>
+			</div>
+		);
+	} else {
+		result = (
+			<div className='Todo'>
+				<li
+					className={isCompleted ? 'Todo-task isCompleted' : 'Todo-task'}
+					onClick={handleToggle}
+				>
+					{todo.task}
+				</li>
+				<div className='Todo-buttons'>
+					<button onClick={toggleForm}>
+						<i className='fas fa-pen' />
+					</button>
+					<button onClick={handleRemove}>
+						<i className='fas fa-trash' />
+					</button>
+				</div>
+			</div>
+		);
+	}
+	return result;
+};
 
 export default Todo;
